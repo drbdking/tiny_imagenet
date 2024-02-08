@@ -13,25 +13,26 @@ import torch.optim as optim
 
 
 class MyNet(nn.Module):
-    def __init__(self, num_classes=10, dropout=0.5, depth=3, width_factor=1) -> None:
+    def __init__(self, num_classes=10, dropout=0.5, depth=3, width_factor=8) -> None:
         super().__init__()
         # Starting layer
         features_modules = [
-            nn.Conv2d(3, 16 * width_factor, kernel_size=5, padding=1),
+            nn.Conv2d(3, width_factor, kernel_size=5, padding=1),
             nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
             ]
         
         # Controlled by depth
         for i in range(1, depth):
-            features_modules.append(nn.Conv2d(16 * width_factor, 16 * width_factor, kernel_size=3, padding=1))
+            features_modules.append(nn.Conv2d(i * width_factor, (i + 1) * width_factor, kernel_size=3, padding=1))
             features_modules.append(nn.ReLU(inplace=True))
 
         self.features = nn.Sequential(*features_modules)
 
-        self.avgpool = nn.AdaptiveAvgPool2d((6, 6))
+        self.avgpool = nn.AdaptiveAvgPool2d((3, 3))
         self.classifier = nn.Sequential(
             nn.Dropout(p=dropout),
-            nn.Linear(16 * width_factor * 6 * 6, 1024),
+            nn.Linear((i + 1) * width_factor * 3 * 3, 1024),
             nn.ReLU(inplace=True),
             nn.Dropout(p=dropout),
             nn.Linear(1024, 512),

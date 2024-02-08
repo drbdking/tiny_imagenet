@@ -53,6 +53,7 @@ if __name__ == '__main__':
     # Arguments
     parser.add_argument("--depth", type=int, default=3)
     parser.add_argument("--width_factor", type=int, default=1)
+    parser.add_argument("--learning_rate", type=float, default=1e-2)
 
     args = parser.parse_args()
 
@@ -80,7 +81,7 @@ if __name__ == '__main__':
 
     # Loss func and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.01, weight_decay=5e-4, momentum=0.9)
+    optimizer = optim.SGD(net.parameters(), lr=args.learning_rate, weight_decay=5e-4, momentum=0.9)
 
     # Training
     train_acc_record = []

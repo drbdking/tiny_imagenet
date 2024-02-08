@@ -112,6 +112,7 @@ if __name__ == '__main__':
 
             train_loss += loss.item()
         print(f"Epoch {epoch}, train loss: {train_loss / i}")
+        print(f"Epoch {epoch}, train acc: {num_correct / (i * batch_size)}")
         train_acc_record.append(num_correct / (i * batch_size))
         train_loss_record.append(train_loss / i)
 

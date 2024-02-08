@@ -25,6 +25,7 @@ class MyNet(nn.Module):
         # Controlled by depth
         for i in range(1, depth):
             features_modules.append(nn.Conv2d(i * width_factor, (i + 1) * width_factor, kernel_size=3, padding=1))
+            features_modules.append(nn.BatchNorm2d((i + 1) * width_factor))
             features_modules.append(nn.ReLU(inplace=True))
 
         self.features = nn.Sequential(*features_modules)

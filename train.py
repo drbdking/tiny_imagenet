@@ -111,7 +111,7 @@ if __name__ == '__main__':
             optimizer.step()
 
             preds = torch.argmax(outputs.detach(), dim=1)
-            num_correct += torch.sum(preds == labels)
+            num_correct += torch.sum(preds == labels).detach().cpu().numpy()
 
             train_loss += loss.item()
         print(f"Epoch {epoch}, train loss: {train_loss / i}")
@@ -133,7 +133,7 @@ if __name__ == '__main__':
                 # forward + backward + optimize
                 outputs = net(inputs)
                 preds = torch.argmax(outputs, dim=1)
-                num_correct += torch.sum(preds == labels)
+                num_correct += torch.sum(preds == labels).detach().cpu().numpy()
                 loss = criterion(outputs, labels)
 
                 val_loss += loss.item()

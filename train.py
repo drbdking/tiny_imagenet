@@ -145,7 +145,9 @@ if __name__ == '__main__':
 
     # Save record
     with open(f"output/d_{args.depth}_w_{args.width_factor}.json", 'w') as fp:
-        rec = {'num_params': sum(p.numel() for p in net.parameters() if p.requires_grad),
+        rec = {'depth': args.depth, 
+               'width': args.width_factor,
+               'num_params': sum(p.numel() for p in net.parameters() if p.requires_grad),
                'train_loss': train_loss_record, 
                'train_acc': train_acc_record, 
                'val_loss': val_loss_record, 

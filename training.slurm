@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=16G
-#SBATCH --time=0-1:00:00
+#SBATCH --time=0-2:00:00
 #SBATCH --gres=gpu:a100:1
 #SBATCH --job-name train
 #SBATCH --open-mode=append

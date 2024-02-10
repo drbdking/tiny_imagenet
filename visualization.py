@@ -10,11 +10,11 @@ import plotly.graph_objects as go
 
 
 @st.cache_data
-def load_data():
+def load_data(type=0):
     data = []
-    for filename in os.listdir("output/"):
+    for filename in os.listdir(f"output/type{type}"):
         if filename.endswith(".json"): 
-            with open(f"output/{filename}", "r") as fp:
+            with open(f"output/type{type}/{filename}", "r") as fp:
                 rec = json.load(fp)
             data.append(pd.DataFrame(data=rec))
         else:
@@ -71,8 +71,10 @@ def make_bubble_plot(df, method="max"):
 
 if __name__ == '__main__':
     # Load output
-    df = load_data()
+    df = load_data(type=0)
     make_bubble_plot(df)
+    df1 = load_data(type=1)
+    make_bubble_plot(df1)
     # Select box, choose max or quantile
     # Make bubble plot
 

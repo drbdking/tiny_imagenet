@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for depth in 2 3 4
+for depth in 6 8 
 do
     for width_factor in 96 128
     do

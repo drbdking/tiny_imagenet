@@ -24,8 +24,10 @@ class MyNet(nn.Module):
         
         # Controlled by depth
         for i in range(1, depth):
-            features_modules.append(nn.Conv2d(i * width_factor, (i + 1) * width_factor, kernel_size=3, padding=1))
-            features_modules.append(nn.BatchNorm2d((i + 1) * width_factor))
+            # features_modules.append(nn.Conv2d(i * width_factor, (i + 1) * width_factor, kernel_size=3, padding=1))
+            features_modules.append(nn.Conv2d(width_factor, width_factor, kernel_size=3, padding=1))
+            # features_modules.append(nn.BatchNorm2d((i + 1) * width_factor))
+            features_modules.append(nn.BatchNorm2d(width_factor))
             features_modules.append(nn.ReLU(inplace=True))
 
         self.features = nn.Sequential(*features_modules)
@@ -33,7 +35,8 @@ class MyNet(nn.Module):
         self.avgpool = nn.AdaptiveAvgPool2d((3, 3))
         self.classifier = nn.Sequential(
             nn.Dropout(p=dropout),
-            nn.Linear((i + 1) * width_factor * 3 * 3, 1024),
+            # nn.Linear((i + 1) * width_factor * 3 * 3, 1024),
+            nn.Linear(width_factor * 3 * 3, 1024),
             nn.ReLU(inplace=True),
             nn.Dropout(p=dropout),
             nn.Linear(1024, 512),
@@ -144,7 +147,7 @@ if __name__ == '__main__':
 
 
     # Save record
-    with open(f"output/d_{args.depth}_w_{args.width_factor}.json", 'w') as fp:
+    with open(f"output/d_{args.depth}_w_{args.width_factor}_2.json", 'w') as fp:
         rec = {'depth': args.depth, 
                'width': args.width_factor,
                'num_params': sum(p.numel() for p in net.parameters() if p.requires_grad),
